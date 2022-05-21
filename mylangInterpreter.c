@@ -21,10 +21,18 @@ exReturn ex(nodeType *p)
         exReturn temp;
         temp.iORf = p->con.iORf;
         if (p->con.iORf)
+        {
             temp.inti = p->con.ival;
+            printf("\t\t\tthe value of the IDENTIFIER: %d\n", p->con.ival);
+
+        }
         else
+        {
             temp.floatie = p->con.fval;
+            printf("\t\t\tthe value of the IDENTIFIER: %lf\n", p->con.fval);
+        }
         printf(temp.iORf ? "\tconstant type: integer\n" : "\tconstant type: floating point\n");
+
         return temp;
 
     case typeId:
@@ -94,7 +102,7 @@ exReturn ex(nodeType *p)
                 }
                 else
                 {
-                    symInt[p->opr.op[0]->id.iIndex] = (int)temp.floatie;
+                    symInt[p->opr.op[0]->id.iIndex] = temp.floatie;
                     printf("\tfloating value assigned to an integer variable\n");
                 }
             }
@@ -102,7 +110,7 @@ exReturn ex(nodeType *p)
             {
                 if (temp.iORf)
                 {
-                    symFloat[p->opr.op[0]->id.fIndex] = (double)temp.inti;
+                    symFloat[p->opr.op[0]->id.fIndex] = temp.inti;
                     printf("\tinteger value assigned to an floating point variable\n\tVALUE BEING ASSIGNED is: %lf\n", (double)(temp.inti));
                 }
                 else
