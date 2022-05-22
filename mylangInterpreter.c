@@ -72,8 +72,9 @@ exReturn ex(nodeType *p)
             return temp;
 
         case DISPLAY:
+            //display a55;
             printf("\tdisplay block\n");
-            temp = ex(p->opr.op[0]);
+            temp = ex(p->opr.op[0]); //p->opr.op[0] stores pointer to a55;  
             printf(temp.iORf ? "\tinteger\n" : "\tfloating point\n");
             if (temp.iORf)
                 printf("%d\n", temp.inti);
