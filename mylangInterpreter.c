@@ -138,6 +138,11 @@ exReturn ex(nodeType *p)
             printf("temp.iORf is supposed to be: ");
             printf(temp.iORf ? "INTEGER\n" : "FLOATING POINT\n");
 
+            printf("a.iORf is supposed to be: ");
+            printf(a.iORf ? "INTEGER\n" : "FLOATING POINT\n");
+            
+            printf("b.iORf is supposed to be: ");
+            printf(b.iORf ? "INTEGER\n" : "FLOATING POINT\n");
             if (a.iORf) // a contains integer variable
             {
                 if (b.iORf) // b contains integer variable
