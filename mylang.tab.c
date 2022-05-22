@@ -79,7 +79,7 @@
 	/*prototypes*/
 	nodeType *opr(int oper, int nops, ...);
 	nodeType *id(int i, bool which); //bool = =true -> integer symbol table entry else float sym table entry
-	nodeType *con(int value, bool which); //true int false float
+	nodeType *con(int value, double dvalue, bool which); //true int false float
 	void freeNode(nodeType *p);
 	exReturn ex(nodeType *p);
 	int yylex(void);
@@ -1616,7 +1616,7 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 90 "mylang.y"
-    { printf("\t\tiex -> %d\n", (yyvsp[(1) - (1)].ivalue)); (yyval.nPtr) = con((yyvsp[(1) - (1)].ivalue), true);;}
+    { printf("\t\tiex -> %d\n", (yyvsp[(1) - (1)].ivalue)); (yyval.nPtr) = con((yyvsp[(1) - (1)].ivalue), 0.0, true);;}
     break;
 
   case 31:
@@ -1630,7 +1630,7 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 95 "mylang.y"
-    { printf("\t\tfex -> %lf\n", (yyvsp[(1) - (1)].fvalue)); (yyval.nPtr) = con((yyvsp[(1) - (1)].fvalue), false);;}
+    { printf("\t\tfex -> %lf\n", (yyvsp[(1) - (1)].fvalue)); (yyval.nPtr) = con(0, (yyvsp[(1) - (1)].fvalue), false);;}
     break;
 
   case 33:
@@ -1860,7 +1860,7 @@ yyreturn:
 
 #define SIZEOF_NODETYPE ((char *)&p->con - (char *)p)
 
-nodeType *con(int value, bool which)
+nodeType *con(int value, double dvalue, bool which)
 {
 	nodeType *p;
 	/* allocate node */
@@ -1873,7 +1873,7 @@ nodeType *con(int value, bool which)
 	if(which)
 		p->con.ival = value; //or maybe p->con.ival
 	else
-		p->con.fval = value;
+		p->con.fval = dvalue;
 	
 	return p;
 }

@@ -8,7 +8,7 @@
 	/*prototypes*/
 	nodeType *opr(int oper, int nops, ...);
 	nodeType *id(int i, bool which); //bool = =true -> integer symbol table entry else float sym table entry
-	nodeType *con(int value, bool which); //true int false float
+	nodeType *con(int value, double dvalue, bool which); //true int false float
 	void freeNode(nodeType *p);
 	exReturn ex(nodeType *p);
 	int yylex(void);
@@ -87,12 +87,12 @@ expr:
 		;
 
 iex:
-			INTEGER					{ printf("\t\tiex -> %d\n", $1); $$ = con($1, true);}
+			INTEGER					{ printf("\t\tiex -> %d\n", $1); $$ = con($1, 0.0, true);}
 		|	SIVAR					{ printf("\t\tiex-> SIVAR\n"); $$ = id($1, true);}
 		;		
 
 fex:
-			FLOATIE					{ printf("\t\tfex -> %lf\n", $1); $$ = con($1, false);}
+			FLOATIE					{ printf("\t\tfex -> %lf\n", $1); $$ = con(0, $1, false);}
 		|	FPVAR					{ printf("\t\tfex -> FPVAR\n");$$ = id($1, false);}
 		;
 
@@ -100,7 +100,7 @@ fex:
 
 #define SIZEOF_NODETYPE ((char *)&p->con - (char *)p)
 
-nodeType *con(int value, bool which)
+nodeType *con(int value, double dvalue, bool which)
 {
 	nodeType *p;
 	/* allocate node */
@@ -113,7 +113,7 @@ nodeType *con(int value, bool which)
 	if(which)
 		p->con.ival = value; //or maybe p->con.ival
 	else
-		p->con.fval = value;
+		p->con.fval = dvalue;
 	
 	return p;
 }
