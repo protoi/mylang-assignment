@@ -72,7 +72,7 @@ stmt_list:
 expr: 
 			iex						{printf("\t\texpression -> iex\n"); $$ = $1;}
 		|	fex						{printf("\t\texpression -> fex\n"); $$ = $1;}
-		|	'-' expr %prec UMINUS	{$$ = opr(UMINUS, 1, $2);}
+		|	UMINUS expr				{$$ = opr(UMINUS, 1, $2);}
 		|	expr '+' expr 			{ $$ = opr('+', 2, $1, $3); }
 		|	expr '-' expr 			{ $$ = opr('-', 2, $1, $3); }
 		|	expr '*' expr 			{ $$ = opr('*', 2, $1, $3); }

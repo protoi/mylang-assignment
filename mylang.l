@@ -10,11 +10,11 @@ int calculateIndex(char*, char);
 %option noyywrap
 
 %%
+"~"						return UMINUS;
 ">=" 					return GE;
 "<=" 					return LE;
 "==" 					return EQ;
 "!=" 					return NE;
-"-"						return UMINUS;
 "while" 				return WHILE;
 "if" 					return IF;
 "else" 					return ELSE;
@@ -40,6 +40,7 @@ int calculateIndex(char*, char);
 							return INTEGER;
 						}
 [-\(\)<>\{\}+=\*/^;] 	{
+							printf("\t\t\t\tTOKEN READ: %c\n", yytext[0]);
 							return yytext[0];
 						}
 [ \t\n]+ 				; /* ignore whitespaces, tabs and line breaks */

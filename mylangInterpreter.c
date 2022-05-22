@@ -24,7 +24,6 @@ exReturn ex(nodeType *p)
         {
             temp.inti = p->con.ival;
             printf("\t\t\tthe value of the IDENTIFIER: %d\n", p->con.ival);
-
         }
         else
         {
@@ -72,9 +71,9 @@ exReturn ex(nodeType *p)
             return temp;
 
         case DISPLAY:
-            //display a55;
+            // display a55;
             printf("\tdisplay block\n");
-            temp = ex(p->opr.op[0]); //p->opr.op[0] stores pointer to a55;  
+            temp = ex(p->opr.op[0]); // p->opr.op[0] stores pointer to a55;
             printf(temp.iORf ? "\tinteger\n" : "\tfloating point\n");
             if (temp.iORf)
                 printf("%d\n", temp.inti);
@@ -98,12 +97,12 @@ exReturn ex(nodeType *p)
             {
                 if (temp.iORf) // value we are writing is integer
                 {
-                    symInt[p->opr.op[0]->id.iIndex] = temp.inti;
+                    symInt[p->opr.op[0]->id.iIndex] = (int)temp.inti;
                     printf("\tinteger value assigned to an integer variable\n");
                 }
                 else
                 {
-                    symInt[p->opr.op[0]->id.iIndex] = temp.floatie;
+                    symInt[p->opr.op[0]->id.iIndex] = (double)temp.floatie;
                     printf("\tfloating value assigned to an integer variable\n");
                 }
             }
@@ -111,12 +110,12 @@ exReturn ex(nodeType *p)
             {
                 if (temp.iORf)
                 {
-                    symFloat[p->opr.op[0]->id.fIndex] = temp.inti;
+                    symFloat[p->opr.op[0]->id.fIndex] = (double)temp.inti;
                     printf("\tinteger value assigned to an floating point variable\n\tVALUE BEING ASSIGNED is: %lf\n", (double)(temp.inti));
                 }
                 else
                 {
-                    symFloat[p->opr.op[0]->id.fIndex] = temp.floatie;
+                    symFloat[p->opr.op[0]->id.fIndex] = (double)temp.floatie;
                     printf("\tfloating point value assigned to an floating point variable\n\tVALUE BEING ASSIGNED is: %lf\n", (temp.floatie));
                 }
             }
@@ -133,11 +132,11 @@ exReturn ex(nodeType *p)
 
         case '+':
             exReturn a, b;
-            temp.iORf = a.iORf && b.iORf;
-            printf("temp.iORf is supposed to be: ");
-            printf(temp.iORf ? "true\n" : "false\n");
             a = ex(p->opr.op[0]);
             b = ex(p->opr.op[1]);
+            temp.iORf = a.iORf && b.iORf;
+            printf("temp.iORf is supposed to be: ");
+            printf(temp.iORf ? "INTEGER\n" : "FLOATING POINT\n");
 
             if (a.iORf) // a contains integer variable
             {
@@ -156,9 +155,9 @@ exReturn ex(nodeType *p)
             return temp;
 
         case '-':
-            temp.iORf = a.iORf && b.iORf;
             a = ex(p->opr.op[0]);
             b = ex(p->opr.op[1]);
+            temp.iORf = a.iORf && b.iORf;
 
             if (a.iORf) // a contains integer variable
             {
@@ -177,30 +176,30 @@ exReturn ex(nodeType *p)
             return temp;
 
         case '*':
-            temp.iORf = a.iORf && b.iORf;
             a = ex(p->opr.op[0]);
             b = ex(p->opr.op[1]);
+            temp.iORf = a.iORf && b.iORf;
 
             if (a.iORf) // a contains integer variable
             {
                 if (b.iORf) // b contains integer variable
                     temp.inti = a.inti * b.inti;
                 else
-                    temp.floatie = a.inti * b.floatie;
+                    temp.floatie = (double)a.inti * b.floatie;
             }
             else
             {
                 if (b.iORf) // b contains integer variable
-                    temp.floatie = a.floatie * b.inti;
+                    temp.floatie = a.floatie * (double)b.inti;
                 else
                     temp.floatie = a.floatie * b.floatie;
             }
             return temp;
 
         case '/':
-            temp.iORf = a.iORf && b.iORf;
             a = ex(p->opr.op[0]);
             b = ex(p->opr.op[1]);
+            temp.iORf = a.iORf && b.iORf;
 
             if (a.iORf) // a contains integer variable
             {
@@ -219,124 +218,124 @@ exReturn ex(nodeType *p)
             return temp;
 
         case '<':
-            temp.iORf = NULL;
             a = ex(p->opr.op[0]);
             b = ex(p->opr.op[1]);
+            temp.iORf = NULL;
 
             if (a.iORf) // a contains integer variable
             {
                 if (b.iORf) // b contains integer variable
                     temp.inti = a.inti < b.inti;
                 else
-                    temp.floatie = a.inti < b.floatie;
+                    temp.inti = a.inti < b.floatie;
             }
             else
             {
                 if (b.iORf) // b contains integer variable
-                    temp.floatie = a.floatie < b.inti;
+                    temp.inti = a.floatie < b.inti;
                 else
-                    temp.floatie = a.floatie < b.floatie;
+                    temp.inti = a.floatie < b.floatie;
             }
             return temp;
         case '>':
-            temp.iORf = NULL;
             a = ex(p->opr.op[0]);
             b = ex(p->opr.op[1]);
+            temp.iORf = NULL;
 
             if (a.iORf) // a contains integer variable
             {
                 if (b.iORf) // b contains integer variable
                     temp.inti = a.inti > b.inti;
                 else
-                    temp.floatie = a.inti > b.floatie;
+                    temp.inti = a.inti > b.floatie;
             }
             else
             {
                 if (b.iORf) // b contains integer variable
-                    temp.floatie = a.floatie > b.inti;
+                    temp.inti = a.floatie > b.inti;
                 else
-                    temp.floatie = a.floatie > b.floatie;
+                    temp.inti = a.floatie > b.floatie;
             }
             return temp;
         case GE:
-            temp.iORf = NULL;
             a = ex(p->opr.op[0]);
             b = ex(p->opr.op[1]);
+            temp.iORf = NULL;
 
             if (a.iORf) // a contains integer variable
             {
                 if (b.iORf) // b contains integer variable
                     temp.inti = a.inti >= b.inti;
                 else
-                    temp.floatie = a.inti >= b.floatie;
+                    temp.inti = a.inti >= b.floatie;
             }
             else
             {
                 if (b.iORf) // b contains integer variable
-                    temp.floatie = a.floatie >= b.inti;
+                    temp.inti = a.floatie >= b.inti;
                 else
-                    temp.floatie = a.floatie >= b.floatie;
+                    temp.inti = a.floatie >= b.floatie;
             }
             return temp;
         case LE:
-            temp.iORf = NULL;
             a = ex(p->opr.op[0]);
             b = ex(p->opr.op[1]);
+            temp.iORf = NULL;
 
             if (a.iORf) // a contains integer variable
             {
                 if (b.iORf) // b contains integer variable
                     temp.inti = a.inti <= b.inti;
                 else
-                    temp.floatie = a.inti <= b.floatie;
+                    temp.inti = a.inti <= b.floatie;
             }
             else
             {
                 if (b.iORf) // b contains integer variable
-                    temp.floatie = a.floatie <= b.inti;
+                    temp.inti = a.floatie <= b.inti;
                 else
-                    temp.floatie = a.floatie <= b.floatie;
+                    temp.inti = a.floatie <= b.floatie;
             }
             return temp;
 
         case NE:
-            temp.iORf = NULL;
             a = ex(p->opr.op[0]);
             b = ex(p->opr.op[1]);
+            temp.iORf = NULL;
 
             if (a.iORf) // a contains integer variable
             {
                 if (b.iORf) // b contains integer variable
                     temp.inti = a.inti != b.inti;
                 else
-                    temp.floatie = a.inti != b.floatie;
+                    temp.inti = a.inti != b.floatie;
             }
             else
             {
                 if (b.iORf) // b contains integer variable
-                    temp.floatie = a.floatie != b.inti;
+                    temp.inti = a.floatie != b.inti;
                 else
-                    temp.floatie = a.floatie != b.floatie;
+                    temp.inti = a.floatie != b.floatie;
             }
             return temp;
         case EQ:
-            temp.iORf = NULL;
             a = ex(p->opr.op[0]);
             b = ex(p->opr.op[1]);
+            temp.iORf = NULL;
 
             if (a.iORf) // a contains integer variable
             {
                 if (b.iORf) // b contains integer variable
                     temp.inti = a.inti == b.inti;
                 else
-                    temp.floatie = a.inti == b.floatie;
+                    temp.inti = a.inti == b.floatie;
             }
             else
             {
                 if (b.iORf) // b contains integer variable
-                    temp.floatie = a.floatie == b.inti;
+                    temp.inti = a.floatie == b.inti;
                 else
-                    temp.floatie = a.floatie == b.floatie;
+                    temp.inti = a.floatie == b.floatie;
             }
             return temp;
         }
